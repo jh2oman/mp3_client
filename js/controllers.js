@@ -191,20 +191,13 @@ demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http'
     });
 
     $scope.createTask = function(){
-        if($scope.name.length === 0 && $scope.date.length != 0){
-            $scope.displayText = "Missing required field";
-            $scope.nameError = true;
-            $scope.dateError = false;
-        }
-        else if($scope.date.length === 0 && $scope.name.length != 0){
-            $scope.displayText = "Missing required field";
-            $scope.dateError = true;
-            $scope.nameError = false;
-        }
-        else if($scope.date.length === 0 && $scope.name.length === 0){
-            $scope.displayText = "Missing required field";
-            $scope.dateError = true;
-            $scope.nameError = true;
+        
+        if($scope.name.length ===0 || $scope.date.length===0){
+          $scope.displayText="Missing Required Field";
+          if($scope.name.length===0)
+            $scope.nameError=true;
+          if($scope.date.length===0)
+            $scope.dateError=true;
         }
         else{
             //$scope.displayText = "made it";
@@ -218,6 +211,7 @@ demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http'
             if(typeof $scope.assignedUser !=='object')
             $scope.assignedUser = JSON.parse($scope.assignedUser);
             TaskData.createTask($scope.name, $scope.description, $scope.assignedUser._id, $scope.assignedUser.name, $scope.date).success(function(data){
+    
                  if (wasUserDefined){
                      $scope.assignedUser.pendingTasks.append(data.data._id);
                      TaskData.updateUser($scope.assignedUser._id, $scope.assignedUser).success(function(){
@@ -264,20 +258,12 @@ demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData'
 
 
     $scope.createTask = function(){
-        if($scope.name.length === 0 && $scope.deadline.length != 0){
-            $scope.displayText = "Missing required field";
-            $scope.nameError = true;
-            $scope.deadlineError = false;
-        }
-        else if($scope.deadline.length === 0 && $scope.name.length != 0){
-            $scope.displayText = "Missing required field";
-            $scope.deadlineError = true;
-            $scope.nameError = false;
-        }
-        else if($scope.deadline.length === 0 && $scope.name.length === 0){
-            $scope.displayText = "Missing required field";
-            $scope.deadlineError = true;
-            $scope.nameError = true;
+        if($scope.name.length ===0 || $scope.date.length===0){
+          $scope.displayText="Missing Required Field";
+          if($scope.name.length===0)
+            $scope.nameError=true;
+          if($scope.date.length===0)
+            $scope.dateError=true;
         }
         else{
             
