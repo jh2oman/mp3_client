@@ -1,0 +1,45 @@
+<div class="list" ng-controller='EditTaskController'>
+    <div class="row">
+        <div class="small-12 columns"><h1>Edit Task</h1></div>
+    </div>
+    <form>
+        <div class="row">
+            <div class="small-11 columns">
+                <input ng-model="name" type="text">
+            </div>
+            <div class="small-1 column">
+                <span ng-show="nameError" style="color:red">*</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-12 columns">
+                <input ng-model="description" type="text" placeholder="description">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class = "small-12 columns">
+                <select ng-model="assignedUser">
+                    <option ng-repeat="user in users" value="{{user}}">{{user.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-11 columns">
+                <input ng-model="deadline" type="text" placeholder="deadline">
+            </div>
+            <div class="small-1 column">
+                <span ng-show="deadlineError" style="color:red">*</span>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button ng-click="createTask()" class="button tiny info">Create</button>
+        </div>
+
+        {{displayText}}
+
+    </form>
+</div>

@@ -1,0 +1,48 @@
+<div class="list" ng-controller='AddTaskController'>
+    <div class="row">
+        <div class="small-12 columns"><h1>Create Task</h1></div>
+    </div>
+    <form>
+        <div class="row">
+            <div class="small-11 columns">
+                <input ng-model="name" type="text" placeholder="name">
+            </div>
+            <div class="small-1 column">
+                <span ng-show="nameError" style="color:red">*</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-12 columns">
+                <input ng-model="description" type="text" placeholder="description">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class = "small-12 columns">
+            	Assigned User
+                <select ng-model="assignedUser">
+                    <option  ng-repeat="user in users" value="{{user}}">{{user.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-11 columns">
+            	<datepicker>
+                <input ng-model="date" type="text" placeholder="deadline">
+            </datepicker>
+            </div>
+            <div class="small-1 column">
+                <span ng-show="deadlineError" style="color:red">*</span>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button ng-click="createTask()" class="button tiny info">Create</button>
+        </div>
+
+        {{displayText}}
+
+    </form>
+</div>

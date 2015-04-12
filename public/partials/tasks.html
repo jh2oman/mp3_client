@@ -1,0 +1,70 @@
+<div class="list" ng-controller='TasksController'>
+    <div class="row">
+        <div class="small-8 columns"><h1>{{displayText}}</h1></div>
+        <div class="small-4 columns"><a class="button" href="#/addtask">Add Task</a></div>
+    </div>
+    <div class="row">
+        <div class="small-3 columns">
+            <select ng-model="sortBy">
+                <option selected="selected" value="none">Sort By</option>
+                <option value="name">Name</option>
+                <option value="assignedUserName">User Name</option>
+                <option value="dateCreated">Date Created</option>
+                <option value="deadline">Deadline</option>
+            </select>
+        </div>
+        <div class="small-1 column">
+           <span>Asc</span>
+        </div>
+        <div class="small-1 column">
+            <input type="radio" ng-model="sortOrder" name="sort" value="1">
+        </div>
+        <div class="small-1 column">
+            <span>Desc</span>
+        </div>
+        <div class="small-1 column">
+            <input type="radio" ng-model="sortOrder" name="sort" value="-1">
+        </div>
+        <div class="small-5 columns"></div>
+    </div>
+    <div class="row">
+        <div class="small-1 column"><span>All</span></div>
+        <div class="small-1 column"><input type="radio" ng-model="isCompleted" name="filter" value="2" checked="checked"></div>
+        <div class="small-1 column"><span>Pending</span></div>
+        <div class="small-1 column"><input type="radio" ng-model="isCompleted" name="filter" value="0"></div>
+        <div class="small-1 column"><span>Complete</span></div>
+        <div class="small-1 column"><input type="radio" ng-model="isCompleted" name="filter" value="1"></div>
+        <div class="small-6 columns"></div>
+    </div>
+    <ul>
+        <li>
+            <div class="row">
+                <div class="small-4 columns"><h3>Task Name</h3></div>
+                <div class="small-4 columns"><h3>Assigned User Name</h3></div>
+                <div class="small-4 columns"></div>
+
+            </div>
+        </li>
+        <li ng-repeat="task in tasks">
+            <div class='row'>
+                <div class="small-4 columns">
+                    <a ng-click="getDetails(task._id)">{{task.name}}</a>
+                </div>
+                <div class="small-4 columns">
+                    <a span>{{task.assignedUserName}}</span>
+                </div>
+                <div class="small-4 columns">
+                    <button ng-click="deleteTask(task._id)">Delete</button>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="small-6 columns">
+            <button ng-click="showPrevious()">Previous</button>
+        </div>
+        <div class="small-6 columns">
+            <button ng-click="showNext()">Next</button>
+        </div>
+    </div>
+</div>

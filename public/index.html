@@ -14,23 +14,23 @@
 
   <link rel="stylesheet" href="./css/styles.css">
   <link rel="stylesheet" href="./foundation/css/foundation.css">
-  
+  <link href="./lib/angularjs-datepicker/src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 </head>
 
 
-<body>
+<body ng-app='demoApp'>
 
 <div class="row">
 	<a class="button" href="#/settings">Settings</a>
-	<a class="button" href="#/llamalist">Llama List</a>
-  <a class="button" href="#/firstview">First View</a>
-  <a class="button" href="#/secondview">Second View</a>
+	<a class="button" href="#/users">Users</a>
+  <a class="button" href="#/tasks">Tasks</a>
 </div>
 
 <div ng-view></div>
 
 
   <script src="http://localhost:35729/livereload.js"></script>
+  <script src="./lib/angularjs-datepicker/src/js/angular-datepicker.js"></script>
 </body>
 </html>

@@ -1,0 +1,21 @@
+<div class="list" ng-controller='TaskDetailsController'>
+    <div class="row">
+        <div class="small-6 columns"><h1>{{displayText}}</h1></div>
+    </div>
+    <ul>
+        <h3>{{tasks.name}}</h3>
+        <h3>{{tasks.description}}</h3>
+        <h3>Assigned to: {{tasks.assignedUserName}}</h3>
+        <h3>Deadline: {{tasks.deadline}}</h3>
+        <h3>Completed: {{tasks.completed}}</h3>
+    </ul>
+    <div class="row">
+        <div class="small-6 columns">
+            <button ng-click="goToEdit()">Edit Task</button>
+        </div>
+        <div class="small-6 columns">
+            <button ng-click="completeTask()">Mark as Complete</button>
+        </div>
+    </div>
+
+</div>
