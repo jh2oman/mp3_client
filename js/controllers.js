@@ -46,7 +46,7 @@ demoControllers.controller('UsersController', ['$scope', 'Users', '$http', '$win
 
   $scope.deleteUser = function(id){
     Users.delete(id).success(function(data){
-      Users.get().sucess(function(data){
+      Users.get().success(function(data){
         $scope.users = data.data;
 
       });
