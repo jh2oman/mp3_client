@@ -29,7 +29,7 @@
     </div>
     <div class="row">
         <div class="small-1 column"><span>All</span></div>
-        <div class="small-1 column"><input type="radio" ng-model="isCompleted" name="filter" value="2" checked="checked"></div>
+        <div class="small-1 column"><input type="radio" ng-model="isCompleted" name="filter" value="2"></div>
         <div class="small-1 column"><span>Pending</span></div>
         <div class="small-1 column"><input type="radio" ng-model="isCompleted" name="filter" value="0"></div>
         <div class="small-1 column"><span>Complete</span></div>
@@ -61,10 +61,10 @@
     </ul>
     <div class="row">
         <div class="small-6 columns">
-            <button ng-click="showPrevious()">Previous</button>
+            <button ng-show="skipCounter" ng-click="showPrev()">Previous</button>
         </div>
         <div class="small-6 columns">
-            <button ng-click="showNext()">Next</button>
+            <button ng-hide="skipCounter" ng-click="showNext()">Next</button>
         </div>
     </div>
 </div>

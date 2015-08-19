@@ -59,43 +59,41 @@ demoControllers.controller('UsersController', ['$scope', 'Users', '$http', '$win
   }
 
 }]);
-demoControllers.controller('UserDetailsController', ['$scope', 'Users', '$http', '$window', '$location'  , function($scope, Users, $http, $window, $location) {
+demoControllers.controller('UserDetailsController', ['$scope', 'Users', 'Tasks', '$http', '$window', '$location'  , function($scope, Users, Tasks, $http, $window, $location) {
   
   var userid=Users.getId();
-  $scope.showCompleted = false;
   $scope.displayText="User details";
-
+  $scope.showCompleted = false;
   Users.getById(userid).success(function(data){
     $scope.users= data.data;
   });
 
-  Users.getPendingTasks(userid).success(function(data){
-    $scope.tasks=data.data;
+  Users.getTasks(userid).success(function(data){
+    $scope.userTasks=data.data;
+    $scope.tasksDisplay = data.data;
   });
 
   $scope.completedTask = function(id, taskData){
     taskData.completed = true;
     Users.completeTask(id, taskData).success(function(){
-      Users.getPendingTasks(userid).success(function(data){
-        $scope.tasks=data.data;
-      });
-      Users.showCompletedTasks().success(function(data){
-        $scope.completeTasks=data.data;
-      }).error(function(data){
-        $scope.displayText=data.message;
+      Users.getTasks(userid).success(function(data){
+        $scope.userTasks=data.data;
       });
     }).error(function(data){
       $scope.displayText=data.message;
     });
-  };
+  }
    $scope.showCompleted = function(){
-        $scope.showCompleted = true;
-        Users.showCompletedTasks().success(function(data){
-            $scope.completedTasks = data.data;
-        }).error(function(data){
-            $scope.displayText = data.message;
-        });
+        $scope.tasksDisplay = $scope.userTasks.filter(function(arg){return arg.completed ===true});
     }
+
+    $scope.showPending = function(){
+       $scope.tasksDisplay = $scope.userTasks.filter(function(arg){return arg.completed ===false});
+    }
+    $scope.getDetails = function(id){
+    Tasks.setId(id);
+    $location.path('taskdetails');
+  }
 
 }]);
 
@@ -103,18 +101,22 @@ demoControllers.controller('TasksController', ['$scope', 'Tasks', '$http', '$win
   
   $scope.sortBy = "none";
   $scope.sortOrder=1;
-  $scope.iscompleted=0;
+  $scope.isCompleted="2";
   $scope.displayText="Tasks";
   $scope.skipCounter = 0;
 
-  Tasks.get().success(function(data){
-    $scope.tasks=data.data;
-  });
+  Tasks.getFiltered($scope.sortBy, $scope.sortOrder, $scope.isCompleted, $scope.skipCounter).success(function(data){
+          $scope.tasks = data.data;
+      }).error(function(data){
+          $scope.displayText = data.message;
+      });
 
   $scope.deleteTask = function(id){
     Tasks.delete(id).success(function(data){
-      Tasks.get().success(function(data){
-        $scope.tasks=data.data;
+      Tasks.getFiltered($scope.sortBy, $scope.sortOrder, $scope.isCompleted, $scope.skipCounter).success(function(data){
+          $scope.tasks = data.data;
+      }).error(function(data){
+          $scope.displayText = data.message;
       });
     });
   };
@@ -126,7 +128,13 @@ demoControllers.controller('TasksController', ['$scope', 'Tasks', '$http', '$win
   $scope.showNext = function(){
     $scope.skipCounter = $scope.skipCounter + 10;
     Tasks.getFiltered($scope.sortBy, $scope.sortOrder, $scope.isCompleted, $scope.skipCounter).success(function(data){
+        if(data.data.length > 0){
         $scope.tasks = data.data;
+      }
+      else{
+        $scope.skipCounter = $scope.skipCounter - 10;
+        alert("There are no more Tasks to be displayed");
+      }
         }).error(function(data){
           $scope.displayText = data.message;
     });
@@ -213,7 +221,7 @@ demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http'
             TaskData.createTask($scope.name, $scope.description, $scope.assignedUser._id, $scope.assignedUser.name, $scope.date).success(function(data){
     
                  if (wasUserDefined){
-                     $scope.assignedUser.pendingTasks.append(data.data._id);
+                     $scope.assignedUser.pendingTasks.push(data.data._id);
                      TaskData.updateUser($scope.assignedUser._id, $scope.assignedUser).success(function(){
                       $scope.displayText = data.message;
                      }).error(function(data){
@@ -228,8 +236,8 @@ demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http'
 
 }]);
 
-demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData', '$http', '$window' , function($scope, Tasks, TaskData, $http, $window) {
-    var taskid = Tasks.getId();
+demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData','Users', '$http', '$window' , function($scope, Tasks, TaskData,Users, $http, $window) {
+    var taskid = Tasks.getId(); 
     $scope.displayText = taskid;
 
 
@@ -257,13 +265,13 @@ demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData'
     });
 
 
-    $scope.createTask = function(){
-        if($scope.name.length ===0 || $scope.date.length===0){
+    $scope.editTask = function(){
+        if($scope.name.length ===0 || $scope.deadline.length===0){
           $scope.displayText="Missing Required Field";
           if($scope.name.length===0)
             $scope.nameError=true;
-          if($scope.date.length===0)
-            $scope.dateError=true;
+          if($scope.deadline.length===0)
+            $scope.deadlineError=true;
         }
         else{
             
@@ -276,7 +284,11 @@ demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData'
             }
             if(typeof $scope.assignedUser !=='object')
             $scope.assignedUser = JSON.parse($scope.assignedUser);
-            
+
+          var oldUserId = $scope.tasks.assignedUser;
+            Users.getById(oldUserId).success(function(data){
+              $scope.oldUser= data.data;
+            });
             $scope.tasks.name = $scope.name;
             $scope.tasks.description = $scope.description;
             $scope.tasks.deadline = $scope.deadline;
@@ -284,7 +296,16 @@ demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData'
             $scope.tasks.assignedUserName = $scope.assignedUser.name;
             TaskData.editTask(taskid, $scope.tasks).success(function(data){
                 if (wasUserDefined){
-                    $scope.assignedUser.pendingTasks.append(data.data._id);
+                  var index = $scope.oldUser.pendingTasks.indexOf(data.data._id);
+                    if (index > -1) {
+                      $scope.oldUser.pendingTasks.splice(index, 1);
+                    }
+                    TaskData.updateUser($scope.oldUser._id, $scope.oldUser).success(function(){
+                      $scope.displayText = data.message;
+                    }).error(function(data){
+                        $scope.displayText = data.message;
+                    });
+                    $scope.assignedUser.pendingTasks.push(data.data._id);
                     TaskData.updateUser($scope.assignedUser._id, $scope.assignedUser).success(function(){
                       $scope.displayText = data.message;
                     }).error(function(data){
@@ -308,7 +329,7 @@ demoControllers.controller('TaskDetailsController', ['$scope', 'Tasks' , '$http'
     });
     $scope.completeTask = function(){
         $scope.tasks.completed = true;
-        Tasks.completeTask($scope.tasks).success(function(data){
+        Tasks.completeTask(taskid, $scope.tasks).success(function(data){
             $scope.tasks = data.data;
         }).error(function(data){
             $scope.tasks.completed = false;

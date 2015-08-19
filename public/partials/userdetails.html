@@ -1,6 +1,8 @@
 <div class="list" ng-controller='UserDetailsController'>
     <div class="row">
         <div class="small-6 columns"><h1>{{displayText}}</h1></div>
+        <div class="small-3 columns"><button ng-click="showCompleted()">Show Completed Tasks</button></div>
+        <div class="small-3 columns"><button ng-click="showPending()">Show Pending Tasks</button></div>
     </div>
     <ul>
         <h3>{{users.name}}</h3>
@@ -8,30 +10,16 @@
     </ul>
 
     <ul>
-        <li ng-repeat="task in tasks">
+        <li ng-repeat="task in tasksDisplay">
             <div class='row'>
                 <div class="small-6 columns">
-                    <a>{{task.name}}</a>
+                    <a ng-click="getDetails(task._id)">{{task.name}}</a>
                 </div>
                 <div class="small-6 columns">
-                    <button ng-click="completedTask(task._id, task)">Completed</button>
+                    <button ng-hide="task.completed" ng-click="completedTask(task._id, task)">Complete Task</button>
+                    <p ng-show="task.completed">Task Completed</p>
                 </div>
             </div>
         </li>
     </ul>
-
-    <ul>
-        <li><button ng-click="showCompleted()">Show Completed Tasks</button></li>
-        <li ng-show="showingCompleted" ng-repeat="task in completedTasks">
-            <div class='row'>
-                <div class="small-6 columns">
-                    <a>{{task.name}}</a>
-                </div>
-                <div class="small-6 columns">
-                    <span>This task is complete</span>
-                </div>
-            </div>
-        </li>
-    </ul>
-
 </div>

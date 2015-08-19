@@ -51,15 +51,13 @@ angular.module('demoServices', [])
             getById : function(id){
                 return $http.get(baseUrl+'/api/users/'+id);
             },
-            getPendingTasks : function(){
-                return $http.get(baseUrl+'/api/tasks?where={"assignedUser":"'+userid+'"}&where={"completed":false}');
+            getTasks : function(id){
+                return $http.get(baseUrl+'/api/tasks?where={"assignedUser":"'+id+'"}');
             },
             completeTask : function(id, tdata){
                 return $http.put(baseUrl+'/api/tasks/'+id, tdata);
             },
-            showCompletedTasks : function(){
-                return $http.get(baseUrl+'/api/tasks?where={"assignedUser":"'+userid+'"}&where={"completed":true}');
-            }
+
         }
     })
     .factory('Tasks', function($http, $window){
