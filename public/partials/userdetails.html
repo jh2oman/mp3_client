@@ -1,15 +1,15 @@
 <div class="list" ng-controller='UserDetailsController'>
     <div class="row">
         <div class="small-6 columns"><h1>{{displayText}}</h1></div>
-        <div class="small-3 columns"><button ng-click="showCompleted()">Show Completed Tasks</button></div>
-        <div class="small-3 columns"><button ng-click="showPending()">Show Pending Tasks</button></div>
+        <div class="small-6 columns"></div>
     </div>
     <ul>
-        <h3>{{users.name}}</h3>
-        <h3>{{users.email}}</h3>
+        <h3>Name : {{users.name}}</h3>
+        <h3>Email : {{users.email}}</h3>
     </ul>
 
     <ul>
+        <li><h4>Task List</h4></li>
         <li ng-repeat="task in tasksDisplay">
             <div class='row'>
                 <div class="small-6 columns">
