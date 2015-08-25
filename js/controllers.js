@@ -1,6 +1,6 @@
 var demoControllers = angular.module('demoControllers', []);
 
-demoControllers.controller('AddUserController', ['$scope', 'UserData'  , function($scope, UserData) {
+demoControllers.controller('AddUserController', ['$scope', 'UserData', '$window'  , function($scope, UserData, $window) {
   $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   $scope.name ="";
   $scope.email = "";
