@@ -1,6 +1,6 @@
 // js/services/todos.js
 angular.module('demoServices', [])
-        .factory('UserData', function($http, $window){
+        .factory('UserData', function($https, $window){
         var data = "";
         return{
             getData : function(){
@@ -8,39 +8,39 @@ angular.module('demoServices', [])
             },
             addUser : function(userName,userEmail){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.post(baseUrl+'/api/users/', {name:userName, email: userEmail});
+                return $https.post(baseUrl+'/api/users/', {name:userName, email: userEmail});
             }
         }
     })
-    .factory('TaskData', function($http, $window){
+    .factory('TaskData', function($https, $window){
         return{
             getUsers : function(){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/users');
+                return $https.get(baseUrl+'/api/users');
             },
             createTask : function(taskName, tdescription, userId, userName, tdeadline){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.post(baseUrl+'/api/tasks/', {name:taskName, description:tdescription, assignedUser: userId, assignedUserName: userName, deadline: tdeadline});
+                return $https.post(baseUrl+'/api/tasks/', {name:taskName, description:tdescription, assignedUser: userId, assignedUserName: userName, deadline: tdeadline});
             },
             updateUser : function(id, udata){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.put(baseUrl+'/api/users/'+id, udata);
+                return $https.put(baseUrl+'/api/users/'+id, udata);
             },
             editTask : function(id,task){
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.put(baseUrl+'/api/tasks/'+id, task);
+                return $https.put(baseUrl+'/api/tasks/'+id, task);
             }
         }
     })
-    .factory('Users', function($http, $window){
+    .factory('Users', function($https, $window){
         var baseUrl = $window.sessionStorage.baseurl;
         var userid;
         return{
             get : function(){
-                return $http.get(baseUrl+'/api/users?select={"name":1}');
+                return $https.get(baseUrl+'/api/users?select={"name":1}');
             },
             delete : function(id){
-                return $http.delete(baseUrl+'/api/users/'+id);
+                return $https.delete(baseUrl+'/api/users/'+id);
             },
             setId : function(id){
                 userid = id;
@@ -49,26 +49,26 @@ angular.module('demoServices', [])
                 return userid;
             },
             getById : function(id){
-                return $http.get(baseUrl+'/api/users/'+id);
+                return $https.get(baseUrl+'/api/users/'+id);
             },
             getTasks : function(id){
-                return $http.get(baseUrl+'/api/tasks?where={"assignedUser":"'+id+'"}');
+                return $https.get(baseUrl+'/api/tasks?where={"assignedUser":"'+id+'"}');
             },
             completeTask : function(id, tdata){
-                return $http.put(baseUrl+'/api/tasks/'+id, tdata);
+                return $https.put(baseUrl+'/api/tasks/'+id, tdata);
             },
 
         }
     })
-    .factory('Tasks', function($http, $window){
+    .factory('Tasks', function($https, $window){
         var baseUrl = $window.sessionStorage.baseurl;
         var taskid;
         return{
             get : function(){
-                return $http.get(baseUrl+'/api/tasks?select={"name":1}');
+                return $https.get(baseUrl+'/api/tasks?select={"name":1}');
             },
             delete : function(id){
-                return $http.delete(baseUrl+'/api/tasks/'+id);
+                return $https.delete(baseUrl+'/api/tasks/'+id);
             },
             setId : function(id){
                 taskid = id;
@@ -77,26 +77,26 @@ angular.module('demoServices', [])
                 return taskid;
             },
             getById : function(id){
-                return $http.get(baseUrl+'/api/tasks/'+id);
+                return $https.get(baseUrl+'/api/tasks/'+id);
             },
             completeTask : function(id, tdata){
-                return $http.put(baseUrl+'/api/tasks/'+id, tdata);
+                return $https.put(baseUrl+'/api/tasks/'+id, tdata);
             },
             getFiltered : function(sortBy, sortOrder, isCompleted, skipCounter){
                 if(isCompleted === "2"){
-                    return $http.get(baseUrl+'/api/tasks?limit=10&sort={"'+sortBy+'":'+ sortOrder + '}&skip='+skipCounter);
+                    return $https.get(baseUrl+'/api/tasks?limit=10&sort={"'+sortBy+'":'+ sortOrder + '}&skip='+skipCounter);
                 }
                 else{
-                    return $http.get(baseUrl+'/api/tasks?sort={"'+sortBy+'":'+ sortOrder + '}&where={"completed":'+isCompleted+'}&select={"name":1, "assignedUserName":1}&limit=10&skip='+skipCounter);
+                    return $https.get(baseUrl+'/api/tasks?sort={"'+sortBy+'":'+ sortOrder + '}&where={"completed":'+isCompleted+'}&select={"name":1, "assignedUserName":1}&limit=10&skip='+skipCounter);
                 }
             }
         }
     })
-    .factory('Llamas', function($http, $window) {      
+    .factory('Llamas', function($https, $window) {      
         return {
             get : function() {
                 var baseUrl = $window.sessionStorage.baseurl;
-                return $http.get(baseUrl+'/api/llamas');
+                return $https.get(baseUrl+'/api/llamas');
             }
         }
     })
