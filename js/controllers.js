@@ -1,6 +1,7 @@
 var demoControllers = angular.module('demoControllers', []);
 
 demoControllers.controller('AddUserController', ['$scope', 'UserData'  , function($scope, UserData) {
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   $scope.name ="";
   $scope.email = "";
   $scope.displayText="";
@@ -37,6 +38,7 @@ demoControllers.controller('AddUserController', ['$scope', 'UserData'  , functio
 }]);
 
 demoControllers.controller('UsersController', ['$scope', 'Users', '$http', '$window', '$location'  , function($scope, Users, $http, $window, $location) {
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   
   $scope.baseurl= $window.sessionStorage.baseurl;
 
@@ -60,6 +62,7 @@ demoControllers.controller('UsersController', ['$scope', 'Users', '$http', '$win
 
 }]);
 demoControllers.controller('UserDetailsController', ['$scope', 'Users', 'Tasks', '$http', '$window', '$location'  , function($scope, Users, Tasks, $http, $window, $location) {
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   
   var userid=Users.getId();
   $scope.displayText="User details";
@@ -98,6 +101,7 @@ demoControllers.controller('UserDetailsController', ['$scope', 'Users', 'Tasks',
 }]);
 
 demoControllers.controller('TasksController', ['$scope', 'Tasks', '$http', '$window', '$location'  , function($scope, Tasks, $http, $window, $location) {
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   
   $scope.sortBy = "none";
   $scope.sortOrder=1;
@@ -181,6 +185,7 @@ demoControllers.controller('TasksController', ['$scope', 'Tasks', '$http', '$win
 }]);
 
 demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http', '$window', function($scope, TaskData, $http, $window) {
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
     $scope.name = "";
     $scope.description = "";
     $scope.date = "";
@@ -237,6 +242,7 @@ demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http'
 }]);
 
 demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData','Users', '$http', '$window' , function($scope, Tasks, TaskData,Users, $http, $window) {
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
     var taskid = Tasks.getId(); 
     $scope.displayText = taskid;
 
@@ -266,6 +272,7 @@ demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData'
 
 
     $scope.editTask = function(){
+
         if($scope.name.length ===0 || $scope.deadline.length===0){
           $scope.displayText="Missing Required Field";
           if($scope.name.length===0)
@@ -321,6 +328,7 @@ demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData'
 }]);
 
 demoControllers.controller('TaskDetailsController', ['$scope', 'Tasks' , '$http', '$window', '$location', function($scope, Tasks, $http, $window, $location) {
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
     var taskid = Tasks.getId();
     $scope.showingCompleted = false;
     $scope.displayText = "Task Details";
@@ -344,7 +352,7 @@ demoControllers.controller('TaskDetailsController', ['$scope', 'Tasks' , '$http'
 }]);
 
 demoControllers.controller('LlamaListController', ['$scope', '$http', 'Llamas', '$window' , function($scope, $http,  Llamas, $window) {
-
+$window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   Llamas.get().success(function(data){
     $scope.llamas = data;
   });
@@ -353,8 +361,8 @@ demoControllers.controller('LlamaListController', ['$scope', '$http', 'Llamas', 
 }]);
 
 demoControllers.controller('SettingsController', ['$scope' , '$window' , function($scope, $window) {
-  $scope.url = $window.sessionStorage.baseurl;
-
+  $scope.url ="http://jwaterman-todo.herokuapp.com"
+  $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   $scope.setUrl = function(){
     $window.sessionStorage.baseurl = $scope.url; 
     $scope.displayText = "URL set";

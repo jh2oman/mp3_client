@@ -41,6 +41,6 @@ demoApp.config(['$routeProvider', function($routeProvider) {
     controller: 'LlamaListController'
   }).
   otherwise({
-    redirectTo: '/settings'
+    redirectTo: '/users'
   });
 }]);
