@@ -99,7 +99,7 @@ demoControllers.controller('UserDetailsController', ['$scope', 'Users', 'Tasks',
 
 }]);
 
-demoControllers.controller('TasksController', ['$scope', 'Tasks', '$http', '$window', '$location'  , function($scope, Tasks, $http, $window, $location) {
+demoControllers.controller('TasksController', ['$scope', 'Tasks', 'Users', '$http', '$window', '$location'  , function($scope, Tasks, Users, $http, $window, $location) {
   $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   
   $scope.sortBy = "none";
@@ -113,6 +113,12 @@ demoControllers.controller('TasksController', ['$scope', 'Tasks', '$http', '$win
       }).error(function(data){
           $scope.displayText = data.message;
       });
+
+  $scope.getUser = function(id){
+    Users.setId(id);
+    $location.path('userdetails');
+  };
+
 
   $scope.deleteTask = function(id){
     Tasks.delete(id).success(function(data){
