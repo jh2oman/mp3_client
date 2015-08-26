@@ -40,7 +40,6 @@ demoControllers.controller('AddUserController', ['$scope', 'UserData', '$window'
 demoControllers.controller('UsersController', ['$scope', 'Users', '$http', '$window', '$location'  , function($scope, Users, $http, $window, $location) {
   $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   
-  $scope.baseurl= $window.sessionStorage.baseurl;
 
   Users.get().success(function(data){
     $scope.users = data.data;
@@ -360,7 +359,7 @@ $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com";
 
 }]);
 
-demoControllers.controller('SettingsController', ['$scope' , '$window' , function($scope, $window) {
+demoControllers.controller('HomeController', ['$scope' , '$window' , function($scope, $window) {
   $scope.url ="http://jwaterman-todo.herokuapp.com"
   $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   $scope.setUrl = function(){

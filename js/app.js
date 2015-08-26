@@ -32,15 +32,15 @@ demoApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: 'partials/edittask.html',
     controller: 'EditTaskController'
   }).
-  when('/settings', {
-    templateUrl: 'partials/settings.html',
-    controller: 'SettingsController'
+  when('/home', {
+    templateUrl: 'partials/home.html',
+    controller: 'HomeController'
   }).
   when('/llamalist', {
     templateUrl: 'partials/llamalist.html',
     controller: 'LlamaListController'
   }).
   otherwise({
-    redirectTo: '/users'
+    redirectTo: '/home'
   });
 }]);
