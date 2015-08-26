@@ -87,7 +87,7 @@ angular.module('demoServices', [])
                     return $http.get(baseUrl+'/api/tasks?limit=10&sort={"'+sortBy+'":'+ sortOrder + '}&skip='+skipCounter);
                 }
                 else{
-                    return $http.get(baseUrl+'/api/tasks?sort={"'+sortBy+'":'+ sortOrder + '}&where={"completed":'+isCompleted+'}&select={"name":1, "assignedUserName":1}&limit=10&skip='+skipCounter);
+                    return $http.get(baseUrl+'/api/tasks?where={"completed":'+isCompleted+'}&sort={"'+sortBy+'":'+ sortOrder + '}&select={"name":1, "assignedUserName":1}&limit=10&skip='+skipCounter);
                 }
             }
         }
