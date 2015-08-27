@@ -13,7 +13,7 @@
             <button ng-click="goToEdit()">Edit Task</button>
         </div>
         <div class="small-6 columns">
-            <button ng-click="completeTask()">Mark as Complete</button>
+            <button ng-hide="tasks.completed" ng-click="completeTask()">Mark as Complete</button>
         </div>
     </div>
 

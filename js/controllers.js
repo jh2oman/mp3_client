@@ -1,6 +1,6 @@
 var demoControllers = angular.module('demoControllers', []);
 
-demoControllers.controller('AddUserController', ['$scope', 'UserData', '$window'  , function($scope, UserData, $window) {
+demoControllers.controller('AddUserController', ['$scope', 'UserData', '$window', '$location'  , function($scope, UserData, $window, $location) {
   $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
   $scope.name ="";
   $scope.email = "";
@@ -28,6 +28,7 @@ demoControllers.controller('AddUserController', ['$scope', 'UserData', '$window'
       $scope.emailError=false;
       UserData.addUser($scope.name, $scope.email).success(function(data){
         $scope.displayText=data.message;
+        $location.path('users');
       }).error(function(data){
         $scope.displayText=data.message;
       });
@@ -189,7 +190,7 @@ demoControllers.controller('TasksController', ['$scope', 'Tasks', 'Users', '$htt
 
 }]);
 
-demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http', '$window', function($scope, TaskData, $http, $window) {
+demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http', '$window' , '$location', function($scope, TaskData, $http, $window, $location) {
   $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
     $scope.name = "";
     $scope.description = "";
@@ -229,7 +230,7 @@ demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http'
             if(typeof $scope.assignedUser !=='object')
             $scope.assignedUser = JSON.parse($scope.assignedUser);
             TaskData.createTask($scope.name, $scope.description, $scope.assignedUser._id, $scope.assignedUser.name, $scope.date).success(function(data){
-    
+            $location.path('tasks');
                  if (wasUserDefined){
                      $scope.assignedUser.pendingTasks.push(data.data._id);
                      TaskData.updateUser($scope.assignedUser._id, $scope.assignedUser).success(function(){
@@ -246,7 +247,7 @@ demoControllers.controller('AddTaskController', ['$scope', 'TaskData'  , '$http'
 
 }]);
 
-demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData','Users', '$http', '$window' , function($scope, Tasks, TaskData,Users, $http, $window) {
+demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData','Users', '$http', '$window', '$location' , function($scope, Tasks, TaskData,Users, $http, $window, $location) {
   $window.sessionStorage.baseurl = "http://jwaterman-todo.herokuapp.com"; 
     var taskid = Tasks.getId(); 
     $scope.displayText = taskid;
@@ -307,6 +308,7 @@ demoControllers.controller('EditTaskController', ['$scope' , 'Tasks', 'TaskData'
             $scope.tasks.assignedUser = $scope.assignedUser._id;
             $scope.tasks.assignedUserName = $scope.assignedUser.name;
             TaskData.editTask(taskid, $scope.tasks).success(function(data){
+              $location.path('tasks');
                 if (wasUserDefined){
                   var index = $scope.oldUser.pendingTasks.indexOf(data.data._id);
                     if (index > -1) {
